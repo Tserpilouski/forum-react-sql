@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql2");
+const mysql = require("mysql");
+require("dotenv").config();
+
 const app = express();
 
 app.use(cors());
@@ -14,34 +16,51 @@ const db = mysql.createConnection({
 });
 
 app.post("/signup", (req, res) => {
-  const sql = "INSERT INTO users (`name`, `email`, `password`) VALUES (?)";
-  const values = [req.body.name, req.body.email, req.body.password];
-  db.query(sql, [values], (err, data) => {
+  const { username, email, password } = req.body;
+  const sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
+  const values = [username, password, email];
+  db.query(sql, values, (err, result) => {
     if (err) {
-      return res.json("Error");
+      console.error("Error signing up:", err);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error signing up" });
     }
-    return res.json(data);
+    console.log("User signed up successfully");
+    return res
+      .status(200)
+      .json({ success: true, message: "User signed up successfully" });
   });
 });
 
 app.post("/login", (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  console.log(email, password);
-  const sql = `SELECT * FROM users WHERE email = ${email} AND password = '${password}'`;
-
-  db.query(sql, (err, data) => {
+  const { email, password } = req.body;
+  //Zapytanie podatne na atak:
+  const sql = `SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`;
+  //Bezpieczne zapytanie:
+  const sqlPlaceholder = `SELECT * FROM users WHERE email = ? AND password = ?`;
+  db.query(sql, [email, password], (err, result) => {
     if (err) {
-      return res.json(err);
+      console.error("Error logging in:", err);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error logging in" });
     }
-    if (data.length > 0) {
-      return res.json("Success");
+    if (result.length > 0) {
+      console.log("Login successful");
+      return res
+        .status(200)
+        .json({ success: true, message: "Login successful" });
     } else {
-      return res.json("Fail");
+      console.log("Incorrect email or password");
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect email or password" });
     }
   });
 });
 
-app.listen(8081, () => {
-  console.log("listening");
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
