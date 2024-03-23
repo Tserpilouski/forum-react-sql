@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../style/home.css";
+import "../../styles/home.css";
 
 const Home = () => {
   const cardsData = [

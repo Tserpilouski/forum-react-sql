@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "../style/login.css";
+import { registerUser } from "../../services/authServices";
+import "../../styles/login.css";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Username:", user.name);
-    console.log("Email:", user.email);
-    console.log("Password:", user.password);
-    console.log("Confirm Password:", user.confirmPassword);
-    axios
-      .post("http://localhost:8081/signup", user)
-      .then((res) => {
-        navigate("/");
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (user.password !== user.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await registerUser(user);
+      console.log(response);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleInput = (event) => {
@@ -43,7 +45,7 @@ const RegistrationForm = () => {
           <input
             type="text"
             name="username"
-            value={user.name}
+            value={user.username}
             onChange={handleInput}
             className="input-field"
           />
@@ -85,7 +87,6 @@ const RegistrationForm = () => {
         <button type="submit" className="login-button">
           Register
         </button>
-
         <Link to="/" className="registration-link">
           Login
         </Link>

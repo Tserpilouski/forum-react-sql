@@ -1,7 +1,7 @@
-import Login from "./view/Login";
-import Signup from "./view/Signup";
-import Home from "./view/Home";
-import Cards from "./view/Card";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
+import Home from "./components/home/Home";
+import Cards from "./components/home/Card";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 

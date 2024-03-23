@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "../style/login.css";
+
+import { login } from "../../services/authServices";
+
+import "../../styles/login.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,29 +11,30 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    axios
-      .post("http://localhost:8081/login", user)
-      .then((res) => {
-        if (res.data === "Success") {
-          navigate("/home");
-          console.log(res);
-        } else {
-          console.log(res);
-          alert("dupa");
-        }
-      })
-      .catch((err) => console.log(err));
+    try {
+      const response = await login(user);
+      if (response.success) {
+        navigate("/home");
+      } else {
+        setError("Incorrect email or password");
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleInput = (event) => {
-    setUser((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
+    setUser((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
   return (
@@ -41,7 +44,6 @@ const Login = () => {
           <label>Email</label>
           <input
             onChange={handleInput}
-            // type="email"
             name="email"
             value={user.email}
             className="input-field"
@@ -51,15 +53,15 @@ const Login = () => {
           <label>Password</label>
           <input
             onChange={handleInput}
-            // type="password"
             name="password"
             value={user.password}
             className="input-field"
           />
         </div>
-        <button type="submit" className="login-button">
-          Log in
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? "Logging in..." : "Log in"}
         </button>
+        {error && <div className="error-message">{error}</div>}
         <Link to="/signup" className="registration-link">
           Registration
         </Link>
