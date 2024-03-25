@@ -1,39 +1,57 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authServices";
+import { validateSignup } from "../../utils/authValidation";
 import "../../styles/login.css";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
+
   const [user, setUser] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (user.password !== user.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-
-    try {
-      const response = await registerUser(user);
-      console.log(response);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleInput = (event) => {
     setUser((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const validationError = validateSignup(
+      user.username,
+      user.email,
+      user.password,
+      user.confirmPassword
+    );
+    if (validationError) {
+      setLoading(false);
+      return setError(validationError);
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await registerUser(user);
+      if (response.success) {
+        navigate("/");
+      } else {
+        setError("Something go wrong!");
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,50 +61,51 @@ const RegistrationForm = () => {
         <label>
           Username:
           <input
+            className="input-field"
             type="text"
             name="username"
             value={user.username}
             onChange={handleInput}
-            className="input-field"
           />
         </label>
         <br />
         <label>
           Email:
           <input
+            className="input-field"
             type="email"
             name="email"
             value={user.email}
             onChange={handleInput}
-            className="input-field"
           />
         </label>
         <br />
         <label>
           Password:
           <input
+            className="input-field"
             type="password"
             name="password"
             value={user.password}
             onChange={handleInput}
-            className="input-field"
           />
         </label>
         <br />
         <label>
           Confirm Password:
           <input
+            className="input-field"
             type="password"
             name="confirmPassword"
             value={user.confirmPassword}
             onChange={handleInput}
-            className="input-field"
           />
         </label>
         <br />
-        <button type="submit" className="login-button">
-          Register
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? "Creating..." : "Create account"}
         </button>
+        {error && <div className="error-message">{error}</div>}
         <Link to="/" className="registration-link">
           Login
         </Link>
