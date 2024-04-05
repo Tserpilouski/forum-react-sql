@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const login = async (userData) => {
+export const loginServ = async (userData) => {
   try {
     const response = await axios.post("http://localhost:8081/login", userData);
     return response.data;

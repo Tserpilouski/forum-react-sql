@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authServices";
-import { validateSignup } from "../../utils/authValidation";
 import "../../styles/login.css";
 
 const RegistrationForm = () => {
@@ -25,17 +24,6 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const validationError = validateSignup(
-      user.username,
-      user.email,
-      user.password,
-      user.confirmPassword
-    );
-    if (validationError) {
-      setLoading(false);
-      return setError(validationError);
-    }
 
     setLoading(true);
     setError(null);
@@ -106,7 +94,7 @@ const RegistrationForm = () => {
           {loading ? "Creating..." : "Create account"}
         </button>
         {error && <div className="error-message">{error}</div>}
-        <Link to="/" className="registration-link">
+        <Link to="/login" className="registration-link">
           Login
         </Link>
       </form>

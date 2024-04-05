@@ -1,39 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { login } from "../../services/authServices";
-import { validateLogin } from "../../utils/authValidation";
+import { useAuth } from "../../hooks/useAuth";
+import { loginServ } from "../../services/authServices";
 
 import "../../styles/login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const handleInput = (event) => {
-    setUser((prev) => ({ ...prev, [event.target.name]: event.target.value }));
-  };
+  const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const validationError = validateLogin(user.email, user.password);
-    if (validationError) {
-      setLoading(false);
-      return setError(validationError);
-    }
     setLoading(true);
     setError(null);
 
     try {
-      const response = await login(user);
+      const response = await loginServ({ email, password });
+      console.log(response);
       if (response.success) {
-        navigate("/home");
+        navigate("/");
+        await login({ email });
       } else {
         setError("Incorrect email or password");
       }
@@ -53,8 +44,8 @@ const Login = () => {
             className="input-field"
             type="email"
             name="email"
-            value={user.email}
-            onChange={handleInput}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div>
@@ -63,8 +54,8 @@ const Login = () => {
             className="input-field"
             type="password"
             name="password"
-            value={user.password}
-            onChange={handleInput}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <button type="submit" className="login-button" disabled={loading}>
