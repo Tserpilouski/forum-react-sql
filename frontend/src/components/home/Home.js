@@ -1,5 +1,6 @@
 import React from "react";
 import "../../styles/home.css";
+import Button from "react-bootstrap/Button";
 
 const Home = () => {
   // const cardsData = [
@@ -11,6 +12,8 @@ const Home = () => {
   return (
     <>
       <h1>Home</h1>
+      <Button variant="primary">Primary</Button>
+      <Button variant="primary">Primary</Button>
     </>
     // <div>
     //   <h2>Welcome to the Home Page!</h2>

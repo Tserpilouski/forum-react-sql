@@ -23,8 +23,8 @@ const Login = () => {
       const response = await loginServ({ email, password });
       console.log(response);
       if (response.success) {
-        navigate("/");
         await login({ email });
+        navigate("/");
       } else {
         setError("Incorrect email or password");
       }

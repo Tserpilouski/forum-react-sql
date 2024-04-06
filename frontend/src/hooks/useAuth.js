@@ -7,13 +7,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
   const navigate = useNavigate();
 
-  // call this function when you want to authenticate the user
   const login = async (data) => {
     setUser(data);
     navigate("/");
   };
 
-  // call this function to sign out logged in user
   const logout = () => {
     setUser(null);
     navigate("/", { replace: true });
@@ -25,6 +23,7 @@ export const AuthProvider = ({ children }) => {
       login,
       logout,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [user]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
