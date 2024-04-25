@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav className="header">
       <NavLink to="/">Home</NavLink>
-      <NavLink to="/user">User</NavLink>
+      <NavLink to="/dashboard">User</NavLink>
       <NavLink to="/login">Login</NavLink>
     </nav>
   );

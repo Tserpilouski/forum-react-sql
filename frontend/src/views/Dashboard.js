@@ -1,11 +1,11 @@
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
 
-const User = () => {
+const Dashboard = () => {
   const { user, logout } = useAuth();
   console.log(user);
   return (
-    <div>
+    <div className="container">
       User email
       <button
         onClick={() => {
@@ -18,4 +18,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Dashboard;

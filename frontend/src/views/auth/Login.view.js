@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../services/authServices";
 import { useAuth } from "../../hooks/useAuth";
 import { loginServ } from "../../services/authServices";
+import LoginData from "../../models/auth/Login";
 
 import "../../styles/login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginData, setLoginData] = useState(new LoginData());
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -20,10 +21,10 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await loginServ({ email, password });
+      const response = await loginServ(loginData);
       console.log(response);
       if (response.success) {
-        await login({ email });
+        await login(loginData.email);
         navigate("/");
       } else {
         setError("Incorrect email or password");
@@ -44,8 +45,10 @@ const Login = () => {
             className="input-field"
             type="email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={loginData.email}
+            onChange={(e) =>
+              setLoginData((prev) => ({ ...prev, email: e.target.value }))
+            }
           />
         </div>
         <div>
@@ -54,8 +57,10 @@ const Login = () => {
             className="input-field"
             type="password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={loginData.password}
+            onChange={(e) =>
+              setLoginData((prev) => ({ ...prev, password: e.target.value }))
+            }
           />
         </div>
         <button type="submit" className="login-button" disabled={loading}>

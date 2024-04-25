@@ -1,21 +1,20 @@
-import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
-import Home from "./components/home/Home";
-import Dashboard from "./components/Dashboard";
-import Cards from "./components/home/Card";
+import Login from "./views/auth/Login.view";
+import Signup from "./views/auth/Signup.view";
+import Home from "./views/home/Home";
+import Dashboard from "./views/Dashboard";
+import Cards from "./views/home/Card";
 import Error from "./components/Error";
-import About from "./components/About";
 import SharedLayout from "./components/SharedLayout";
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+import "./App.css";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/cards/:id" element={<Cards />} />
         <Route path="/login" element={<Login />} />
         <Route
