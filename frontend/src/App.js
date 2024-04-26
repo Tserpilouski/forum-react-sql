@@ -1,5 +1,5 @@
 import Login from "./views/auth/Login.view";
-import Signup from "./views/auth/Signup.view";
+import Signup from "./views/auth/Registration.view";
 import Home from "./views/home/Home";
 import Dashboard from "./views/Dashboard";
 import Cards from "./views/home/Card";

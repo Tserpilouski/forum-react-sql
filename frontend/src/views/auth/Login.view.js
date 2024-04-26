@@ -2,37 +2,27 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../services/authServices";
 import { useAuth } from "../../hooks/useAuth";
-import { loginServ } from "../../services/authServices";
 import LoginData from "../../models/auth/Login";
 
 import "../../styles/login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [loginData, setLoginData] = useState(new LoginData());
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const { login } = useAuth();
+  const [loginData, setLoginData] = useState(new LoginData());
+  const [loginMutation, { isLoading, isError }] = useLoginMutation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(null);
-
     try {
-      const response = await loginServ(loginData);
-      console.log(response);
-      if (response.success) {
-        await login(loginData.email);
-        navigate("/");
-      } else {
-        setError("Incorrect email or password");
-      }
+      await loginMutation({
+        email: loginData.email,
+        password: loginData.password,
+      }).unwrap();
+      await login(loginData.email);
+      navigate("/");
     } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
+      console.error("Error rtk", error);
     }
   };
 
@@ -63,10 +53,10 @@ const Login = () => {
             }
           />
         </div>
-        <button type="submit" className="login-button" disabled={loading}>
-          {loading ? "Logging in..." : "Log in"}
+        <button type="submit" className="login-button" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Log in"}
         </button>
-        {error && <div className="error-message">{error}</div>}
+        {isError && <div className="error-message">{isError}</div>}
         <Link to="/signup" className="registration-link">
           Registration
         </Link>

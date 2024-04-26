@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../../services/authServices";
+import { useRegistrationMutation } from "../../services/authServices";
+import RegistrationData from "../../models/auth/Registration";
 import "../../styles/login.css";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
-
-  const [user, setUser] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [registrationData, setRegistrationData] = useState(
+    new RegistrationData()
+  );
+  const [registrationMutation, { isError, isLoading }] =
+    useRegistrationMutation();
 
   const handleInput = (event) => {
-    setUser((prev) => ({
+    setRegistrationData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
@@ -25,20 +22,11 @@ const RegistrationForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setLoading(true);
-    setError(null);
-
     try {
-      const response = await registerUser(user);
-      if (response.success) {
-        navigate("/");
-      } else {
-        setError("Something go wrong!");
-      }
+      await registrationMutation(registrationData).unwrap();
+      navigate("/");
     } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+      console.log(error);
     }
   };
 
@@ -51,8 +39,8 @@ const RegistrationForm = () => {
           <input
             className="input-field"
             type="text"
-            name="username"
-            value={user.username}
+            name="userName"
+            value={registrationData.userName}
             onChange={handleInput}
           />
         </label>
@@ -63,7 +51,7 @@ const RegistrationForm = () => {
             className="input-field"
             type="email"
             name="email"
-            value={user.email}
+            value={registrationData.email}
             onChange={handleInput}
           />
         </label>
@@ -74,7 +62,7 @@ const RegistrationForm = () => {
             className="input-field"
             type="password"
             name="password"
-            value={user.password}
+            value={registrationData.password}
             onChange={handleInput}
           />
         </label>
@@ -85,15 +73,15 @@ const RegistrationForm = () => {
             className="input-field"
             type="password"
             name="confirmPassword"
-            value={user.confirmPassword}
+            value={registrationData.confirmPassword}
             onChange={handleInput}
           />
         </label>
         <br />
-        <button type="submit" className="login-button" disabled={loading}>
-          {loading ? "Creating..." : "Create account"}
+        <button type="submit" className="login-button" disabled={isLoading}>
+          {isLoading ? "Creating..." : "Create account"}
         </button>
-        {error && <div className="error-message">{error}</div>}
+        {isError && <div className="error-message">{isError}</div>}
         <Link to="/login" className="registration-link">
           Login
         </Link>
