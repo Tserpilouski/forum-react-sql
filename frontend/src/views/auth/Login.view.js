@@ -19,7 +19,7 @@ const Login = () => {
         email: loginData.email,
         password: loginData.password,
       }).unwrap();
-      await login(loginData.email);
+      await login(loginData);
       navigate("/");
     } catch (error) {
       console.error("Error rtk", error);
