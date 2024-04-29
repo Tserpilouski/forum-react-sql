@@ -1,0 +1,27 @@
+.dashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dashboard-menu {
+  width: 10rem;
+  flex-shrink: 0;
+  padding: 1rem;
+  border: 1px black solid;
+}
+
+.dashboard-main {
+  flex-grow: 1;
+  min-width: 10rem;
+  padding: 1rem;
+  border: 1px red solid;
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+  &__articles-box {
+    flex-wrap: wrap;
+  }
+}

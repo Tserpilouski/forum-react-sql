@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegistrationMutation } from "../../services/authServices";
 import RegistrationData from "../../models/auth/Registration";
-import "../../styles/login.css";
+
+import "../../styles/login.scss";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();

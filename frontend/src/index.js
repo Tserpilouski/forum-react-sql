@@ -9,7 +9,6 @@ import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import { postsApi } from "./services/postsServices";
 
 import "./index.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -4,7 +4,7 @@ import { useLoginMutation } from "../../services/authServices";
 import { useAuth } from "../../hooks/useAuth";
 import LoginData from "../../models/auth/Login";
 
-import "../../styles/login.css";
+import "../../styles/login.scss";
 
 const Login = () => {
   const navigate = useNavigate();

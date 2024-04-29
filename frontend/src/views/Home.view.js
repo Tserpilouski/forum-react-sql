@@ -4,9 +4,7 @@ import {
   useAddPostMutation,
   useUpdatePostMutation,
   useDeletePostMutation,
-} from "../../services/postsServices";
-
-import "../../styles/home.css";
+} from "../services/postsServices";
 
 const Home = () => {
   const { data: posts, isLoading, isSuccess } = useGetPostsQuery();

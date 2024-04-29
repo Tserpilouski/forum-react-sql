@@ -1,0 +1,18 @@
+.card {
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px green solid;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px black solid;
+}
+
+.card-main {
+  height: 10rem;
+}
