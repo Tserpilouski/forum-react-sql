@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../components/Card";
+import ModalNewArticle from "../components/ModalNewArticle";
 
 import "../styles/dashboard.scss";
 
 const Dashboard = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <main className="container dashboard">
       <div className="dashboard-menu">
@@ -15,11 +21,15 @@ const Dashboard = () => {
         </ul>
       </div>
       <div className="dashboard-main">
-        <h2 className="dashboard-main__title">Yours Article</h2>
+        <div className="dashboard-main__header">
+          <h2>Yours Article</h2>
+          <button onClick={() => setIsOpen(!isOpen)}>New article</button>
+        </div>
         <div className="dashboard-main__articles-box">
           <Card />
         </div>
       </div>
+      {isOpen ? <ModalNewArticle onCloseModal={handleCloseModal} /> : null}
     </main>
   );
 };

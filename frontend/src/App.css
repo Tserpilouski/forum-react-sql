@@ -33,3 +33,13 @@
     width: 100%;
   }
 }
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  border: 1px rgb(252, 87, 41) solid;
+  padding: 2rem;
+}

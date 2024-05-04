@@ -18,9 +18,13 @@
   padding: 1rem;
   border: 1px red solid;
 
-  &__title {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-bottom: 1rem;
   }
+
   &__articles-box {
     flex-wrap: wrap;
   }

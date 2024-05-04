@@ -1,0 +1,40 @@
+.modal-box {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-bottom: 1rem;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__button {
+    width: 40%;
+  }
+}
+
+.red-btn {
+  background-color: rgb(255, 114, 111);
+  border: none;
+}
+
+.green-btn {
+  background-color: rgb(214, 248, 164);
+  border: none;
+}
+
+.red-btn,
+.green-btn {
+  border: 1px solid rgb(255, 255, 255);
+}
+
+.red-btn,
+.green-btn:hover {
+  color: white;
+  border: 1px solid rgb(184, 184, 184);
+  cursor: pointer;
+}
