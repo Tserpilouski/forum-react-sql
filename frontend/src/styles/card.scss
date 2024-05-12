@@ -1,18 +1,30 @@
 .card {
-  width: 15rem;
+  width: 20rem;
   display: flex;
   flex-direction: column;
-  border: 1px green solid;
+  border: 2px rgb(126, 126, 126) solid;
+  border-radius: 1rem;
 }
 
 .card-header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0.5rem 0;
+  justify-content: space-between;
+  padding: 1rem;
   border-bottom: 1px black solid;
+
+  &__btn-update {
+    margin-right: 0.5rem;
+    background-color: greenyellow;
+  }
+
+  &__btn-delete {
+    background-color: rgb(249, 126, 126);
+  }
 }
 
 .card-main {
   height: 10rem;
+  padding: 1rem;
 }

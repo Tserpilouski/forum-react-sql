@@ -40,6 +40,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
-  border: 1px rgb(252, 87, 41) solid;
+  border: 1px rgb(167, 167, 167) solid;
   padding: 2rem;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #8b8b8b;
+  margin: 20px 0;
 }

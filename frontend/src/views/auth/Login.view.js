@@ -33,7 +33,7 @@ const Login = () => {
           <label>Email</label>
           <input
             className="input-field"
-            type="email"
+            type="text"
             name="email"
             value={loginData.email}
             onChange={(e) =>

@@ -1,30 +1,16 @@
-import React, { useRef } from "react";
+import React from "react";
 import {
   useGetPostsQuery,
-  useAddPostMutation,
-  useUpdatePostMutation,
-  useDeletePostMutation,
+  // useUpdatePostMutation,
+  // useDeletePostMutation,
 } from "../services/postsServices";
+import HomeCard from "../components/HomeCard";
+import "../styles/homeview.scss";
 
 const Home = () => {
   const { data: posts, isLoading, isSuccess } = useGetPostsQuery();
-  const [addPost] = useAddPostMutation();
-  const [updatePost] = useUpdatePostMutation();
-  const [deletePost] = useDeletePostMutation();
-
-  const inputRef = useRef(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addPost({
-      id: 3,
-      user_id: 23,
-      title: inputRef.current.value,
-      content: "Brother",
-      created_at: new Date(),
-    });
-    inputRef.current.value = "";
-  };
+  // const [updatePost] = useUpdatePostMutation();
+  // const [deletePost] = useDeletePostMutation();
 
   let content;
 
@@ -33,32 +19,16 @@ const Home = () => {
   } else if (!posts?.posts) {
     return <div>No posts available</div>;
   } else if (isSuccess) {
-    console.log("update component");
     content = posts.posts.map((post) => {
-      return (
-        <div key={post.id}>
-          <input
-            type="checkbox"
-            checked={post.completed}
-            id={post.id}
-            onChange={() => updatePost({ ...post, completed: !post.completed })}
-          />
-          <label htmlFor={post.id}>{post.title}</label>
-          <div>
-            <button onClick={() => deletePost(post.id)}>Delete</button>
-          </div>
-        </div>
-      );
+      console.log(post);
+      return <HomeCard data={post} key={post.id} />;
     });
   }
 
   return (
-    <div className="container">
-      <h1>Hello Home user</h1>
-      <form onSubmit={handleSubmit}>
-        <input ref={inputRef} />
-      </form>
-      {content.map((item) => item)}
+    <div className="container home">
+      <h1 className="home__title">Home</h1>
+      <div className="article-box">{content.map((item) => item)}</div>
     </div>
   );
 };

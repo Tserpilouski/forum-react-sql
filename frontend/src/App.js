@@ -1,8 +1,8 @@
 import Login from "./views/auth/Login.view";
 import Signup from "./views/auth/Registration.view";
 import Home from "./views/Home.view";
+import Article from "./views/Article.view";
 import Dashboard from "./views/Dashboard.view";
-// import Cards from "./views/home/Card";
 import Error from "./views/Error.view";
 import SharedLayout from "./components/SharedLayout";
 import { Routes, Route } from "react-router-dom";
@@ -15,7 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
-        {/* <Route path="/cards/:id" element={<Cards />} /> */}
+        <Route path="/cards/:id" element={<Article />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
